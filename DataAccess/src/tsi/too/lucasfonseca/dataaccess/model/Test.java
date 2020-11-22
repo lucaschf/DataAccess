@@ -1,4 +1,6 @@
-package tsi.too.dataaccess.model;
+package tsi.too.lucasfonseca.dataaccess.model;
+
+import tsi.too.lucasfonseca.dataaccess.api.MyComparable;
 
 public class Test implements MyComparable<Test> {
 	private static final long serialVersionUID = 2;
