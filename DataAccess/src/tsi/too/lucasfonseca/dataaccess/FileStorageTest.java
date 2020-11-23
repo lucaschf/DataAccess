@@ -8,135 +8,135 @@ import tsi.too.lucasfonseca.dataaccess.api.IStorage;
 import tsi.too.lucasfonseca.dataaccess.model.Product;
 
 public class FileStorageTest {
-	IStorage<Product> storage;
+    IStorage<Product> storage;
 
-	public FileStorageTest(IStorage<Product> storage) {
-		super();
-		this.storage = storage;
-	}
+    public FileStorageTest(IStorage<Product> storage) {
+        super();
+        this.storage = storage;
+    }
 
-	public void launchTest() {
-		testInsertion();
-		testFetch();
+    public void launchTest() {
+        testInsertion();
+        testFetch();
 
-		System.out.println("Listing test\n");
-		testeList();
+        System.out.println("Listing test\n");
+        testList();
 
-		updateTest();
+        updateTest();
 
-		deleteTest();
+        deleteTest();
 
-		try {
-			storage.disconnect();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            storage.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	private void testInsertion() {
-		System.out.println("Insertion test.\n");
-		Random random = new Random();
+    private void testInsertion() {
+        System.out.println("Insertion test.\n");
+        Random random = new Random();
 
-		for (int i = 1; i <= 10; i++) {
-			var p = new Product(Long.valueOf(i), "Product" + i, Math.abs(random.nextDouble()), Math.abs(random.nextInt()));
-			System.out.println("Inserting product: " + p.getName());
+        for (int i = 1; i <= 10; i++) {
+            var p = new Product((long) i, "Product" + i, Math.abs(random.nextDouble()), Math.abs(random.nextInt()));
+            System.out.println("Inserting product: " + p.getName());
 
-			try {
-				storage.insert(p);
-				System.out.println("Product successfuly inserted.\n");
-			} catch (IOException | IllegalArgumentException e) {
-				System.out.println(String.format("%s\n", e.getMessage()));
-			}
-		}
-	}
+            try {
+                storage.insert(p);
+                System.out.println("Product successfully inserted.\n");
+            } catch (IOException | IllegalArgumentException e) {
+                System.out.printf("%s\n%n", e.getMessage());
+            }
+        }
+    }
 
-	private void testFetch() {
-		System.out.println("\nSearch test.\n");
+    private void testFetch() {
+        System.out.println("\nSearch test.\n");
 
-		var ids = new Long[] { generateId(), generateId() + 10 };
+        var ids = new Long[]{generateId(), generateId() + 10};
 
-		try {
-			for (long id : ids) {
-				System.out.println("Seaching product with id: " + id);
+        try {
+            for (long id : ids) {
+                System.out.println("Searching product with id: " + id);
 
-				var found = storage.get(new Product(id));
-				if (found.isPresent())
-					System.out.println(String.format("Found: %s\n", found.get()));
-				else
-					System.out.println(String.format("No product with id %d found\n", id));
-			}
-		} catch (IOException e) {
-			System.out.println(String.format("%s\n", e.getMessage()));
-		}
-	}
+                var found = storage.get(new Product(id));
+                if (found.isPresent())
+                    System.out.printf("Found: %s\n%n", found.get());
+                else
+                    System.out.printf("No product with id %d found\n%n", id);
+            }
+        } catch (IOException e) {
+            System.out.printf("%s\n%n", e.getMessage());
+        }
+    }
 
-	private long generateId() {
-		long count;
+    private long generateId() {
+        long count;
 
-		try {
-			count = storage.count();
-		} catch (IOException e) {
-			return 0;
-		}
-		
-		if(count == 1)
-			return 1;
-		
-		if(count == 0)
-			return 0;
+        try {
+            count = storage.count();
+        } catch (IOException e) {
+            return 0;
+        }
 
-		return (long) ThreadLocalRandom.current().nextInt(1, (int) count);
-	}
+        if (count == 1)
+            return 1;
 
-	private void testeList() {
-		try {
-			var list = storage.all();
-			list.forEach(p -> System.out.println(p));
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
+        if (count == 0)
+            return 0;
 
-		System.out.println("\n");
-	}
+        return ThreadLocalRandom.current().nextInt(1, (int) count);
+    }
 
-	private void updateTest() {
-		var id = generateId();
+    private void testList() {
+        try {
+            var list = storage.all();
+            list.forEach(System.out::println);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
-		System.out.println("Updating test\n");
+        System.out.println("\n");
+    }
 
-		try {
-			testeList();
+    private void updateTest() {
+        var id = generateId();
 
-			var newData = new Product(id, "Product updated", 2.50, 10);
+        System.out.println("Updating test\n");
 
-			System.out.println(String.format("Updating product of id: %d", id));
+        try {
+            testList();
 
-			storage.update(newData);
-			System.out.println("Product successfuly updated\n");
-		} catch (IOException | IllegalArgumentException e) {
-			System.out.println(String.format("%s\n", e.getMessage()));
-		}
+            var newData = new Product(id, "Product updated", 2.50, 10);
 
-		System.out.println();
-		testeList();
-	}
+            System.out.printf("Updating product of id: %d%n", id);
 
-	private void deleteTest() {
-		System.out.println("Deleting test\n");
+            storage.update(newData);
+            System.out.println("Product successfully updated\n");
+        } catch (IOException | IllegalArgumentException e) {
+            System.out.printf("%s\n%n", e.getMessage());
+        }
 
-		try {
-			testeList();
+        System.out.println();
+        testList();
+    }
 
-			var id = generateId();
-			System.out.println(String.format("Deleting product with id: %d", id));
+    private void deleteTest() {
+        System.out.println("Deleting test\n");
 
-			storage.delete(new Product(id));
-			System.out.println("Product successfuly deleted\n");
+        try {
+            testList();
 
-		} catch (IOException e) {
-			System.out.println(String.format("%s\n", e.getMessage()));
-		}
+            var id = generateId();
+            System.out.printf("Deleting product with id: %d%n", id);
 
-		testeList();
-	}
+            storage.delete(new Product(id));
+            System.out.println("Product successfully deleted\n");
+
+        } catch (IOException e) {
+            System.out.printf("%s\n%n", e.getMessage());
+        }
+
+        testList();
+    }
 }

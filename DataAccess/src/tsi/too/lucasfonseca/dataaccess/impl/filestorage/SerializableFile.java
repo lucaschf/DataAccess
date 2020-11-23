@@ -22,9 +22,9 @@ public class SerializableFile<E extends Serializable> {
 	 * Specifies what type of object we are working with. It is used to retrieve a
 	 * record from the stream.
 	 */
-	private Class<E> clazz;
+	private final Class<E> clazz;
 
-	private String fileName;
+	private final String fileName;
 
 	public SerializableFile(Class<E> clazz, String fileName) {
 		super();
@@ -100,11 +100,11 @@ public class SerializableFile<E extends Serializable> {
 			var element = objectInputStream.readObject();
 
 			if (clazz.isInstance(element))
-				return Optional.ofNullable(clazz.cast(element));
-		} catch (EOFException e) {
+				return Optional.of(clazz.cast(element));
+		} catch (EOFException ignored) {
 		}
 
-		return Optional.ofNullable(null);
+		return Optional.empty();
 	}
 
 	/**
@@ -117,17 +117,17 @@ public class SerializableFile<E extends Serializable> {
 	 *                                found.
 	 */
 	public Optional<E> fetch(Predicate<E> predicate) throws IOException, ClassNotFoundException {
-		resetInpuStream();
+		resetInputStream();
 
 		Optional<E> target;
 
 		while ((target = read()).isPresent()) {
 			if (predicate.test(target.get())) {
-				return Optional.of(target.get());
+				return target;
 			}
 		}
 
-		return Optional.ofNullable(null);
+		return Optional.empty();
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class SerializableFile<E extends Serializable> {
 	public List<E> readFile() throws FileNotFoundException, IOException, ClassNotFoundException {
 		var items = new ArrayList<E>();
 
-		resetInpuStream();
+		resetInputStream();
 		Optional<E> read;
 
 		while ((read = read()).isPresent()) {
@@ -157,7 +157,7 @@ public class SerializableFile<E extends Serializable> {
 	 * 
 	 * @throws IOException if an I/O error occurs.
 	 */
-	private void resetInpuStream() throws IOException {
+	private void resetInputStream() throws IOException {
 		try {
 			closeInputStream();
 			openForRead();

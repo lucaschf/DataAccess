@@ -11,7 +11,7 @@ import tsi.too.lucasfonseca.dataaccess.api.MyComparable;
 public class Product implements MyComparable<Product> {
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private final Long id;
 	private String name;
 	private double unitaryPrice;
 	private int quantity;
@@ -35,26 +35,6 @@ public class Product implements MyComparable<Product> {
 
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public double getUnitaryPrice() {
-		return unitaryPrice;
-	}
-
-	public void setUnitaryPrice(double unitaryPrice) {
-		this.unitaryPrice = unitaryPrice;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 
 	@Override

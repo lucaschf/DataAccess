@@ -24,7 +24,7 @@ public class FileStorage<E extends MyComparable<E>> implements IStorage<E> {
 	@Override
 	public void insert(E newObject) throws IOException, IllegalArgumentException {
 		if (find(newObject))
-			throw new IllegalArgumentException(String.format("object already present in database"));
+			throw new IllegalArgumentException("object already present in database");
 
 		storage.write(newObject);
 	}

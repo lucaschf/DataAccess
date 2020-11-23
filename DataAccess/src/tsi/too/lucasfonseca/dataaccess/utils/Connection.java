@@ -16,15 +16,16 @@ import tsi.too.lucasfonseca.dataaccess.impl.filestorage.FileStorage;
 public final class Connection {
 
 	private Connection() {
-	};
+	}
 
 	public static <E extends MyComparable<E>> FileStorage<E> openConnection(String filename, Class<E> clazz)
 			throws IOException {
-		return new FileStorage<E>(clazz, filename);
+		return new FileStorage<>(clazz, filename);
 	}
 
+	@SuppressWarnings("unused")
 	public static <E extends Comparable<E>> IStorage<E> openConnection(String dbUrl, String username, String password)
 			throws IOException {
-		return new DatabaseStorage<E>(dbUrl, username, password);
+		return new DatabaseStorage<>(dbUrl, username, password);
 	}
 }
