@@ -7,6 +7,12 @@ import tsi.too.lucasfonseca.dataaccess.api.MyComparable;
 import tsi.too.lucasfonseca.dataaccess.impl.dbstorage.DatabaseStorage;
 import tsi.too.lucasfonseca.dataaccess.impl.filestorage.FileStorage;
 
+/**
+ * Convenience class for opening connection with IStore.
+ * 
+ * @author Lucas Cristovam
+ *
+ */
 public final class Connection {
 
 	private Connection() {

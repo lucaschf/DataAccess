@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -77,11 +76,26 @@ public class SerializableFile<E extends Serializable> {
 			write(e);
 	}
 
+	/**
+	 * Writes an element in file.
+	 * 
+	 * @param e the element to be written.
+	 * @throws IOException if an I/O error occurs.
+	 */
 	public void write(E e) throws IOException {
 		objectOutputStream.writeObject(e);
 	}
 
-	public Optional<E> read() throws IOException, ClassNotFoundException, InvalidClassException {
+	/**
+	 * reads a record from file.
+	 * 
+	 * @return an {@link Optional} containing the read element or null if an
+	 *         exception occurs.
+	 * @throws IOException            if an I/O error occurs.
+	 * @throws ClassNotFoundException if class of a serialized object cannot be
+	 *                                found.
+	 */
+	public Optional<E> read() throws IOException, ClassNotFoundException {
 		try {
 			var element = objectInputStream.readObject();
 
@@ -121,8 +135,9 @@ public class SerializableFile<E extends Serializable> {
 	 *
 	 * @return the resulting list.
 	 * @throws FileNotFoundException  if the file
-	 * @throws IOException
-	 * @throws ClassNotFoundException
+	 * @throws IOException            if an I/O error occurs.
+	 * @throws ClassNotFoundException if class of a serialized object cannot be
+	 *                                found.
 	 */
 	public List<E> readFile() throws FileNotFoundException, IOException, ClassNotFoundException {
 		var items = new ArrayList<E>();
@@ -146,7 +161,7 @@ public class SerializableFile<E extends Serializable> {
 		try {
 			closeInputStream();
 			openForRead();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new IOException(e);
 		}
 	}
@@ -172,7 +187,7 @@ public class SerializableFile<E extends Serializable> {
 	}
 
 	/**
-	 * delete the contents of the file.
+	 * delete all contents of the file.
 	 * 
 	 * @throws IOException if an I/O error occurs.
 	 */

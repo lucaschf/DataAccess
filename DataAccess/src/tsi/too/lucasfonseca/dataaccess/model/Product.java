@@ -2,6 +2,12 @@ package tsi.too.lucasfonseca.dataaccess.model;
 
 import tsi.too.lucasfonseca.dataaccess.api.MyComparable;
 
+/**
+ * Represents a product. Used for serialization/deserialization demonstration purposes only.
+ * 
+ * @author Lucas Cristovam
+ *
+ */
 public class Product implements MyComparable<Product> {
 	private static final long serialVersionUID = 1L;
 
