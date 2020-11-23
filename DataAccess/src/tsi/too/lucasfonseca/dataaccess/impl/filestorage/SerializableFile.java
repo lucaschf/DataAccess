@@ -177,10 +177,6 @@ public class SerializableFile<E extends Serializable> {
 	 * @throws IOException if an I/O error occurs.
 	 */
 	public void clear() throws IOException {
-		try {
-			create();
-		} finally {
-//			closeOutputStream();
-		}
+		create();
 	}
 }

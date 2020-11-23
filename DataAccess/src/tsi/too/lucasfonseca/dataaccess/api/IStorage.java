@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface IStorage<E> {
 
-	void create(E newObject) throws IOException;
+	void insert(E newObject) throws IOException;
 
 	boolean find(E similar) throws IOException;
 
@@ -19,5 +19,5 @@ public interface IStorage<E> {
 
 	Iterable<E> all() throws IOException;
 
-	void close() throws IOException;
+	void disconnect() throws IOException;
 }

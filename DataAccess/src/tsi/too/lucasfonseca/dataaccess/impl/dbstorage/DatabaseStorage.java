@@ -12,43 +12,42 @@ public class DatabaseStorage<E extends Comparable<E>> implements IStorage<E> {
 	}
 
 	@Override
-	public void create(E newObject) throws IOException {
-		throw new IOException("not implemented");
+	public void insert(E newObject) throws IOException {
+		throw new RuntimeException("not implemented");
 	}
 
 	@Override
 	public boolean find(E similar) throws IOException {
-		throw new IOException("not implemented");
+		throw new RuntimeException("not implemented");
 	}
 
 	@Override
 	public void update(E updatedObject) throws IOException {
-		throw new IOException("not implemented");
+		throw new RuntimeException("not implemented");
 	}
 
 	@Override
 	public Optional<E> get(E similar) throws IOException {
-		throw new IOException("not implemented");
+		throw new RuntimeException("not implemented");
 	}
 
 	@Override
-	public void delete(E similar) throws IOException {
-		// TODO Auto-generated method stub
-
+	public void delete(E target) throws IOException {
+		throw new RuntimeException("not implemented");
 	}
 
 	@Override
 	public long count() throws IOException {
-		throw new IOException("not implemented");
+		throw new RuntimeException("not implemented");
 	}
 
 	@Override
 	public Iterable<E> all() throws IOException {
-		throw new IOException("not implemented");
+		throw new RuntimeException("not implemented");
 	}
 
 	@Override
-	public void close() throws IOException {
-		throw new IOException("not implemented");
+	public void disconnect() throws IOException {
+		throw new RuntimeException("not implemented");
 	}
 }

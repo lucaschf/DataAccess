@@ -13,7 +13,7 @@ public class Launcher {
 
 	private static void launch() {
 		try {
-			new FileStorageTest(Connection.openConnection("product.bin", Product.class)).launch();
+			new FileStorageTest(Connection.openConnection("product.bin", Product.class)).launchTest();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}

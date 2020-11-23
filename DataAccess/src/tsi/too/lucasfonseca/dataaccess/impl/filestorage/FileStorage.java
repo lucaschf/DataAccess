@@ -22,9 +22,9 @@ public class FileStorage<E extends MyComparable<E>> implements IStorage<E> {
 	}
 
 	@Override
-	public void create(E newObject) throws IOException, IllegalArgumentException {
+	public void insert(E newObject) throws IOException, IllegalArgumentException {
 		if (find(newObject))
-			throw new IllegalArgumentException(String.format("%s is already present in database", newObject));
+			throw new IllegalArgumentException(String.format("object already present in database"));
 
 		storage.write(newObject);
 	}
@@ -66,21 +66,22 @@ public class FileStorage<E extends MyComparable<E>> implements IStorage<E> {
 	public void delete(E similar) throws IOException {
 		List<E> storedItems = allAsList();
 
-		var wrapper = new Object(){ boolean found = false; };
-		
+		var status = new Object() {
+			boolean found = false;
+		};
+
 		IntStream.range(0, storedItems.size()).filter(i -> storedItems.get(i).compareTo(similar) == 0).findFirst()
 				.ifPresent(i -> {
 					storedItems.remove(i);
-					wrapper.found = true;
+					status.found = true;
 				});
 
-		if (!wrapper.found) {
-			throw new IllegalArgumentException("Target not found in storage");
+		if (!status.found) {
+			throw new IllegalArgumentException("Target not present in storage");
 		}
 
 		storage.clear();
 		storage.write(storedItems);
-
 	}
 
 	@Override
@@ -100,7 +101,7 @@ public class FileStorage<E extends MyComparable<E>> implements IStorage<E> {
 	}
 
 	@Override
-	public void close() throws IOException {
+	public void disconnect() throws IOException {
 		storage.close();
 	}
 
